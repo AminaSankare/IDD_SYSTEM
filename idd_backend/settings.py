@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
 
     # local apps
+    'account',
     'management',
 ]
 
@@ -83,6 +84,29 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+
+        # DECLARING OUR DATABASE
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'HOST': 'localhost',
+        # 'USER': 'root',
+        # 'PASSWORD': '',
+        # 'NAME': 'db_idd_system',
+        # 'PORT': 3306,
+
+        # #optional:
+        # 'OPTIONS': {
+        #     'charset' : 'utf8',
+        #     'use_unicode' : True,
+        #      'init_command': 'SET '
+        #         'storage_engine=INNODB,'
+        #         'character_set_connection=utf8,'
+        #         'collation_connection=utf8_bin,'
+        #         'sql_mode=STRICT_TRANS_TABLES'    # see note below
+        #         #'SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED',
+        # },
+        # 'TEST_CHARSET': 'utf8',
+        # 'TEST_COLLATION': 'utf8_general_ci',
+
     }
 }
 
@@ -132,6 +156,11 @@ STATICFILES_DIRS = (
 # ADDING THE IMAGES OR VIDEOS
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# user model
+AUTH_USER_MODEL = "account.User"
+swappable = 'AUTH_USER_MODEL'
 
 
 # Default primary key field type
