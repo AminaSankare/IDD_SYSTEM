@@ -31,8 +31,8 @@ class Citizen(models.Model):
     marital_status = models.CharField(
         verbose_name="Marital Status", choices=Marital.choices, default=Marital.SELECT, max_length=20)
     nationality = models.CharField(verbose_name="Nationality", max_length=50)
-    nid_number = models.IntegerField(
-        verbose_name="National ID Number", unique=True, blank=False)
+    nid_number = models.CharField(
+        verbose_name="National ID Number", max_length=50, unique=True, blank=False)
     phone_number = PhoneNumberField(verbose_name="Phone Number", blank=True)
     email = models.EmailField(verbose_name="Email",
                               max_length=255, unique=True, blank=False)
@@ -67,8 +67,15 @@ class CitizenAddress(models.Model):
 
 
 class CitizenParents(models.Model):
+    class Parent(models.TextChoices):
+        SELECT = "", "Select Parent"
+        FATHER = "Father", "Father"
+        MOTHER = "Mother", "Mother"
+
     citizen = models.ForeignKey(
         Citizen, verbose_name="Citizen", related_name="parents", on_delete=models.CASCADE)
+    parent = models.CharField(
+        verbose_name="Parent", choices=Parent.choices, default=Parent.SELECT, max_length=10)
     first_name = models.CharField(
         verbose_name="First Name", max_length=50, blank=True)
     last_name = models.CharField(
@@ -88,6 +95,8 @@ class CitizenDocument(models.Model):
 
     citizen = models.ForeignKey(
         Citizen, verbose_name="Citizen", related_name="documents", on_delete=models.CASCADE)
+    document = models.CharField(
+        verbose_name="Document", choices=DocumentType.choices, default=DocumentType.SELECT, max_length=50)
     picture = models.ImageField(
         verbose_name="Image",
         upload_to="citizens/documents/",
@@ -108,7 +117,8 @@ class DocumentApplication(models.Model):
         IDD = "Individual Descriptive Document", "Individual Descriptive Document"
 
     class DocumentCategory(models.TextChoices):
-        SELECT = "", "Select Document"
+        SELECT = "", "Select Document Category"
+        NONE = "None", "None"
         ORDINARY = "Ordinary Passport", "Ordinary Passport"
         DIPLOMATIC = "Diplomatic Passport", "Diplomatic Passport"
         SERVICE = "Service Passport", "Service Passport"
