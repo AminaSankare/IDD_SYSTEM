@@ -38,10 +38,12 @@ class Citizen(models.Model):
                               max_length=255, unique=True, blank=False)
     picture = models.ImageField(
         verbose_name="Image",
-        upload_to="images/profile/",
+        upload_to="citizens/images/",
         validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],
         blank=True, null=True
     )
+    createdDate = models.DateField(
+        verbose_name="Created Date", auto_now_add=True)
 
     def image(self):
         return mark_safe('<img src="/../../media/%s" width="70" />' % (self.picture))
@@ -73,6 +75,27 @@ class CitizenParents(models.Model):
         verbose_name="Last Name", max_length=50, blank=True)
     professionalism = models.CharField(
         verbose_name="Professionalism", max_length=50, blank=True)
+
+    def __str__(self):
+        return "{} {}".format(self.citizen.first_name, self.citizen.last_name)
+
+
+class CitizenDocument(models.Model):
+    class DocumentType(models.TextChoices):
+        SELECT = "", "Select Document"
+        PASSPORT = "Passport", "Passport"
+        IDD = "Individual Descriptive Document", "Individual Descriptive Document"
+
+    citizen = models.ForeignKey(
+        Citizen, verbose_name="Citizen", related_name="documents", on_delete=models.CASCADE)
+    picture = models.ImageField(
+        verbose_name="Image",
+        upload_to="citizens/documents/",
+        validators=[FileExtensionValidator(['pdf'])],
+        blank=True, null=True
+    )
+    createdDate = models.DateTimeField(
+        verbose_name="Created Date", auto_now_add=True)
 
     def __str__(self):
         return "{} {}".format(self.citizen.first_name, self.citizen.last_name)
@@ -112,7 +135,3 @@ class DocumentApplication(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.citizen.first_name, self.citizen.last_name)
-
-
-# class response(models.Model):
-#     request = models.ForeignKey(DocumentApplication, verbose_name="application", )
