@@ -7,7 +7,7 @@ from . import settings
 
 
 urlpatterns = [
-    # path('', include('management.urls')),
+    path('', include('management.urls')),
     path('admin/', admin.site.urls),
 ]
 urlpatterns += staticfiles_urlpatterns()

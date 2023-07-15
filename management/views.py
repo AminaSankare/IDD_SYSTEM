@@ -11,3 +11,7 @@ from django.conf import settings
 
 def handle_not_found(request, exception):
     return render(request, 'page_404/404.html')
+
+
+def home(request,):
+    return render(request, 'management/index.html')
