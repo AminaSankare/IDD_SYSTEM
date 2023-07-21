@@ -33,15 +33,6 @@ class Citizen(models.Model):
     nationality = models.CharField(verbose_name="Nationality", max_length=50)
     nid_number = models.CharField(
         verbose_name="National ID Number", max_length=50, unique=True, blank=False)
-    phone_number = PhoneNumberField(verbose_name="Phone Number", blank=True)
-    email = models.EmailField(verbose_name="Email",
-                              max_length=255, unique=True, blank=False)
-    picture = models.ImageField(
-        verbose_name="Image",
-        upload_to="citizens/images/",
-        validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],
-        blank=True, null=True
-    )
     createdDate = models.DateField(
         verbose_name="Created Date", auto_now_add=True)
 
@@ -66,7 +57,7 @@ class CitizenAddress(models.Model):
         return "{} {}".format(self.citizen.first_name, self.citizen.last_name)
 
 
-class CitizenParents(models.Model):
+class CitizenParent(models.Model):
     class Parent(models.TextChoices):
         SELECT = "", "Select Parent"
         FATHER = "Father", "Father"
@@ -145,3 +136,13 @@ class DocumentApplication(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.citizen.first_name, self.citizen.last_name)
+
+
+class Service(models.Model):
+    name = models.CharField(verbose_name="Service Name",
+                            max_length=100, unique=True, blank=False, null=False)
+    description = models.TextField(
+        verbose_name="Description", blank=False, null=False)
+
+    def __str__(self):
+        return "{}".format(self.name)

@@ -1,0 +1,109 @@
+{% extends "management/registrar/main.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+  </head>
+
+  <body>
+    {% block main_content%}
+
+    <div class="main-content">
+      <div class="container-fluid">
+        <div class="page-header">
+          <div class="row align-items-end">
+            <div class="col-lg-8">
+              <div class="page-header-title">
+                <i class="ik ik-archive bg-secondary"></i>
+                <div class="d-inline">
+                  <h5>Archived List</h5>
+                  <span> Manage Archive Document Application </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <nav class="breadcrumb-container" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <a href="{% url 'dashboard' %}">
+                      <i class="ik ik-home"></i>
+                      Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Archived List
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header"><h3>Archived Applications</h3></div>
+              <div class="card-body">
+                <table id="data_table" class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th class="nosort">Avatar</th>
+                      <th>Name</th>
+                      <th>Request</th>
+                      <th>Status</th>
+                      <th>
+                        <i class="ik ik-clock text-secondary"></i> Created
+                      </th>
+                      <th class="nosort">&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for application in newApplications %}
+                    <tr>
+                      <td>{{ forcounter }}.</td>
+                      <td>
+                        <img
+                          src="{{ application.picture.url }}"
+                          class="table-user-thumb"
+                          alt="{{ application.citizen.first_name }}"
+                        />
+                      </td>
+                      <td>{{ application.citizen }}</td>
+                      <td>Requesting for {{ application.request }}</td>
+                      <td>
+                        {% if application.status == False %}
+                        <span class="badge bg-yellow">Pending</span>
+                        {% else %}
+                        <span class="badge bg-green">Approved</span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        <i class="ik ik-clock text-warning"></i>
+                        {{ application.createdDate }}
+                      </td>
+                      <td>
+                        <div class="table-actions">
+                          <a href="{% url 'new_application' application.id %}">
+                            <i class="ik ik-edit text-primary"></i> Action
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}
+  </body>
+</html>

@@ -5,5 +5,6 @@ from . models import *
 admin.site.register(Citizen)
 admin.site.register(CitizenAddress)
 admin.site.register(CitizenDocument)
-admin.site.register(CitizenParents)
+admin.site.register(CitizenParent)
 admin.site.register(DocumentApplication)
+admin.site.register(Service)

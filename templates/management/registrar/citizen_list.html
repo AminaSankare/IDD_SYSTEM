@@ -1,0 +1,190 @@
+{% extends "management/registrar/main.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+  </head>
+
+  <body>
+    {% block main_content%}
+
+    <div class="main-content">
+      <div class="container-fluid">
+        <div class="page-header">
+          <div class="row align-items-end">
+            <div class="col-lg-8">
+              <div class="page-header-title">
+                <i class="ik ik-users bg-secondary"></i>
+                <div class="d-inline">
+                  <h5>Citizens</h5>
+                  <span> Manage citizens data </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <nav class="breadcrumb-container" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <a href="{% url 'dashboard' %}">
+                      <i class="ik ik-home"></i>
+                      Home
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Citizens List
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header"><h3>Citizens List</h3></div>
+              <div class="card-body">
+                <button
+                  type="button"
+                  class="btn btn-secondary float-right ml-1"
+                  data-toggle="modal"
+                  data-target="#serviceModal"
+                >
+                  <i class="ik ik-share"></i>
+                  Upload Citizens List
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary float-right"
+                  data-toggle="modal"
+                  data-target="#serviceModal"
+                >
+                  <i class="ik ik-plus"></i>
+                  New Citizen
+                </button>
+
+                <table id="data_table" class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Full Names</th>
+                      <th>Identity</th>
+                      <th>Gender</th>
+                      <th>Birth Date</th>
+                      <th>Status</th>
+                      <th class="nosort">&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for application in newApplications %}
+                    <tr>
+                      <td>{{ forcounter }}.</td>
+                      <td>
+                        <img
+                          src="{{ application.picture.url }}"
+                          class="table-user-thumb"
+                          alt="{{ application.citizen.first_name }}"
+                        />
+                      </td>
+                      <td>{{ application.citizen }}</td>
+                      <td>Requesting for {{ application.request }}</td>
+                      <td>
+                        {% if application.status == False %}
+                        <span class="badge bg-yellow">Pending</span>
+                        {% else %}
+                        <span class="badge bg-green">Approved</span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        <i class="ik ik-clock text-warning"></i>
+                        {{ application.createdDate }}
+                      </td>
+                      <td>
+                        <div class="table-actions">
+                          <a href="{% url 'new_application' application.id %}">
+                            <i class="ik ik-edit text-primary"></i> Action
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="serviceModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="serviceModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="serviceModalTitle">
+              REGISTER NEW SERVICE
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+              <div class="form-group mb-0">
+                <label class="col-form-label">Service Name</label>
+                <input
+                  type="text"
+                  class="form-control form-control-uppercase"
+                  name="service_name"
+                  placeholder="Service Name"
+                  required
+                />
+              </div>
+              <div class="form-group mb-0">
+                <label class="col-form-label">Description</label>
+                <textarea
+                  class="form-control"
+                  rows="5"
+                  placeholder="Description ..."
+                  name="description"
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" name="new_stack" class="btn btn-primary">
+                <i class="ik ik-save"></i>
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}
+  </body>
+</html>
