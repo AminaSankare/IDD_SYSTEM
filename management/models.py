@@ -143,6 +143,10 @@ class Service(models.Model):
                             max_length=100, unique=True, blank=False, null=False)
     description = models.TextField(
         verbose_name="Description", blank=False, null=False)
+    processingTime = models.CharField(
+        verbose_name="Processing Time", max_length=50, blank=False, null=False)
+    fees = models.CharField(verbose_name="Fees",
+                            max_length=100, blank=False, null=False)
 
     def __str__(self):
         return "{}".format(self.name)

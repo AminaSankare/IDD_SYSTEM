@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # third parties
     'phonenumber_field',
+    'import_export',
 
     # local apps
     'account',

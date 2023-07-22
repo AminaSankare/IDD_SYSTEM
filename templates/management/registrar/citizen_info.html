@@ -80,30 +80,32 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for citizen in citizens %}
+                    {% for application in newApplications %}
                     <tr>
-                      <td>{{ forloop.counter }}.</td>
-                      <td>{{ citizen.first_name }} {{ citizen.last_name }}</td>
+                      <td>{{ forcounter }}.</td>
                       <td>
-                        Nationality: {{ citizen.nationality}}<br />
-                        ID: {{ citizen.nid_number }}
+                        <img
+                          src="{{ application.picture.url }}"
+                          class="table-user-thumb"
+                          alt="{{ application.citizen.first_name }}"
+                        />
                       </td>
+                      <td>{{ application.citizen }}</td>
+                      <td>Requesting for {{ application.request }}</td>
                       <td>
-                        {% if citizen.gender == "Male" %}
-                        <span>
-                          <i class="fa fa-male text-primary"></i> Male
-                        </span>
+                        {% if application.status == False %}
+                        <span class="badge bg-yellow">Pending</span>
                         {% else %}
-                        <span>
-                          <i class="fa fa-female text-warning"></i> Female
-                        </span>
+                        <span class="badge bg-green">Approved</span>
                         {% endif %}
                       </td>
-                      <td>{{ citizen.birthdate }}</td>
-                      <td>{{ citizen.marital_status }}</td>
+                      <td>
+                        <i class="ik ik-clock text-warning"></i>
+                        {{ application.createdDate }}
+                      </td>
                       <td>
                         <div class="table-actions">
-                          <a href="{% url 'citizen_detail' citizen.id %}">
+                          <a href="{% url 'new_application' application.id %}">
                             <i class="ik ik-edit text-primary"></i> Action
                           </a>
                         </div>
@@ -150,25 +152,23 @@
                   <div class="form-group">
                     <label for="first_name">First Name</label>
                     <input
-                      type="text"
+                      type="email"
                       class="form-control"
-                      name="first_name"
+                      name=""
                       id="first_name"
                       placeholder="First Name ..."
-                      required
                     />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="last_name">Last Name</label>
+                    <label for="last_name">Last Namer</label>
                     <input
-                      type="text"
+                      type="email"
                       class="form-control"
-                      name="last_name"
+                      name=""
                       id="last_name"
                       placeholder="Last Name ..."
-                      required
                     />
                   </div>
                 </div>
@@ -193,7 +193,6 @@
                   name="nid_number"
                   id="nid_number"
                   placeholder="ID Number ..."
-                  required
                 />
               </div>
               <div class="form-group">
@@ -213,7 +212,6 @@
                   name="birth_place"
                   id="birth_place"
                   placeholder="Birth Place ..."
-                  required
                 />
               </div>
               <div class="row">
@@ -260,7 +258,7 @@
               >
                 Close
               </button>
-              <button type="submit" name="new_citizen" class="btn btn-primary">
+              <button type="submit" name="new_stack" class="btn btn-primary">
                 <i class="ik ik-save"></i>
                 Submit
               </button>
