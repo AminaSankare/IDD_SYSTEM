@@ -135,12 +135,12 @@ def servicesEdit(request, pk):
             # if exists
             foundData = Service.objects.get(id=service_id)
 
-            if 'submit' in request.POST:
+            if 'update_service' in request.POST:
                 # Retrieve the form data from the request
                 service_name = request.POST.get('service_name')
                 description = request.POST.get('description')
                 process_time = request.POST.get("process_time")
-                fees = request.POST.get("fees")
+                fees = request.POST.get("service_fees")
 
                 if service_name:
                     if Service.objects.filter(name=service_name).exclude(id=service_id):
@@ -166,7 +166,7 @@ def servicesEdit(request, pk):
                     messages.error(request, ('Service name is required.'))
                     return redirect(servicesEdit, pk)
 
-            elif 'delete' in request.POST:
+            elif 'delete_service' in request.POST:
                 # Delete Service
                 delete_service = Service.objects.get(id=service_id)
                 delete_service.delete()
