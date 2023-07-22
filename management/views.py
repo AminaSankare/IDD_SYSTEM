@@ -82,7 +82,7 @@ def archivedRequest(request,):
 @login_required(login_url='registrar_login')
 def services(request):
     if request.user.is_authenticated and request.user.is_registrar == True:
-        if 'new_service' in request.method == 'POST':
+        if 'new_service' in request.POST:
             service_name = request.POST.get("service_name")
             description = request.POST.get("description")
             process_time = request.POST.get("process_time")
@@ -179,7 +179,7 @@ def servicesEdit(request, pk):
                     'service_active': 'active',
                     'service': foundData,
                 }
-                return render(request, 'main/manager/stackEdit.html', context)
+                return render(request, 'management/registrar/service_details.html', context)
         else:
             messages.error(request, ('Service not found'))
             return redirect(services)
@@ -191,7 +191,7 @@ def servicesEdit(request, pk):
 @login_required(login_url='registrar_login')
 def citizenList(request):
     if request.user.is_authenticated and request.user.is_registrar == True:
-        if request.method == 'POST':
+        if 'new_service' in request.POST:
             first_name = request.POST.get("first_name")
             last_name = request.POST.get("last_name")
             nationality = request.POST.get("nationality")

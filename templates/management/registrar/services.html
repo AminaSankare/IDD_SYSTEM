@@ -77,7 +77,10 @@
                       <td>{{ service.fees }}</td>
                       <td>
                         <div class="table-actions">
-                          <a href="#" class="text-secondary">
+                          <a
+                            href="{% url 'service_detail' service.id %}"
+                            class="text-secondary"
+                          >
                             <i class="ik ik-edit"></i> View
                           </a>
                         </div>
