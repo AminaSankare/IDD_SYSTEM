@@ -191,7 +191,7 @@ def servicesEdit(request, pk):
 @login_required(login_url='registrar_login')
 def citizenList(request):
     if request.user.is_authenticated and request.user.is_registrar == True:
-        if 'new_service' in request.POST:
+        if 'new_citizen' in request.POST:
             first_name = request.POST.get("first_name")
             last_name = request.POST.get("last_name")
             nationality = request.POST.get("nationality")
@@ -247,7 +247,13 @@ def citizenEdit(request, pk):
         # getting citizen
         if Citizen.objects.filter(id=citizen_id).exists():
             # if exists
-            foundData = Citizen.objects.get(id=citizen_id)
+            citizenData = Citizen.objects.get(id=citizen_id)
+            # get address data
+            addressData = CitizenAddress.objects.filter(citizen=citizen_id)
+            # get parent data
+            parentData = CitizenParent.objects.filter(citizen=citizen_id)
+            # get document data
+            documentData = CitizenDocument.objects.filter(citizen=citizen_id)
 
             if 'submit' in request.POST:
                 # Retrieve the form data from the request
@@ -295,7 +301,10 @@ def citizenEdit(request, pk):
                 context = {
                     'title': 'Registrar - Citizen Info',
                     'citizenList_active': 'active',
-                    'citizen': foundData,
+                    'citizen': citizenData,
+                    'address': addressData,
+                    'parents': parentData,
+                    'documents': documentData,
                 }
                 return render(request, 'management/registrar/citizen_info.html', context)
         else:

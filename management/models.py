@@ -46,12 +46,13 @@ class Citizen(models.Model):
 
 
 class CitizenAddress(models.Model):
-    citizen = models.ForeignKey(
+    citizen = models.OneToOneField(
         Citizen, verbose_name="Citizen", related_name="address", on_delete=models.CASCADE)
-    province = models.CharField(verbose_name="Province", max_length=50)
-    state = models.CharField(verbose_name="State", max_length=50)
-    city = models.CharField(verbose_name="City", max_length=50)
-    street = models.CharField(verbose_name="Street", max_length=50)
+    province = models.CharField(
+        verbose_name="Province", max_length=50, blank=True)
+    state = models.CharField(verbose_name="State", max_length=50, blank=True)
+    city = models.CharField(verbose_name="City", max_length=50, blank=True)
+    street = models.CharField(verbose_name="Street", max_length=50, blank=True)
 
     def __str__(self):
         return "{} {}".format(self.citizen.first_name, self.citizen.last_name)
@@ -88,8 +89,8 @@ class CitizenDocument(models.Model):
         Citizen, verbose_name="Citizen", related_name="documents", on_delete=models.CASCADE)
     document = models.CharField(
         verbose_name="Document", choices=DocumentType.choices, default=DocumentType.SELECT, max_length=50)
-    picture = models.ImageField(
-        verbose_name="Image",
+    file = models.FileField(
+        verbose_name="Document",
         upload_to="citizens/documents/",
         validators=[FileExtensionValidator(['pdf'])],
         blank=True, null=True

@@ -52,453 +52,209 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3>Default Date-Picker</h3>
+                <h3>Citizen Information</h3>
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date</h4>
-                    <p>Add type<code>&lt;input type="date"&gt;</code></p>
-                    <input class="form-control" type="date" />
+                  <div class="col-lg-12 mb-4">
+                    <button
+                      type="button"
+                      class="btn btn-light btn-rounded float-right"
+                      data-toggle="modal"
+                      data-target="#delete_confirmation"
+                    >
+                      <i class="ik ik-trash text-danger"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-light btn-rounded float-right mr-1"
+                      data-toggle="modal"
+                      data-target="#updateCitizenModal"
+                    >
+                      <i class="ik ik-edit text-primary"></i>
+                    </button>
+                    <span class="">
+                      Full names:
+                      <h4 class="title">
+                        {{ citizen.first_name }} {{ citizen.last_name }}
+                      </h4>
+                    </span>
                   </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Month</h4>
-                    <p>Add type<code>&lt;input type="month"&gt;</code></p>
-                    <input class="form-control" type="month" />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Week</h4>
-                    <p>Add type<code>&lt;input type="week"&gt;</code></p>
-                    <input class="form-control" type="week" />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date-time-local</h4>
+                  <div class="col-sm-12 col-xl-6 mb-1">
                     <p>
-                      Add type<code>&lt;input type="datetime-local"&gt;</code>
+                      Nationality:
+                      <span class="h6">{{ citizen.nationality }}</span>
                     </p>
-                    <input class="form-control" type="datetime-local" />
                   </div>
-                  <div class="col-sm-12 col-xl-4">
-                    <h4 class="sub-title">Time</h4>
-                    <p>Add type<code>&lt;input type="time"&gt;</code></p>
-                    <input class="form-control" type="time" />
+                  <div class="col-sm-12 col-xl-6 mb-1">
+                    <p>
+                      National ID Number:
+                      <span class="h6">{{ citizen.nid_number }}</span>
+                    </p>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                <h5>Date-Dropper</h5>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Default</h4>
-                    <p>Add <code>id="#dropper-default"</code></p>
-                    <input
-                      id="dropper-default"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
+                  <div class="col-sm-12 col-xl-6 mb-1">
+                    <p>
+                      Birthdate: <span class="h6">{{ citizen.birthdate }}</span>
+                    </p>
                   </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">With Animation</h4>
-                    <p>Add <code>id="#dropper-animation"</code></p>
-                    <input
-                      id="dropper-animation"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your animation"
-                    />
+                  <div class="col-sm-12 col-xl-6 mb-1">
+                    <p>
+                      Birth place:
+                      <span class="h6">{{ citizen.birth_place }}</span>
+                    </p>
                   </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date format</h4>
-                    <p>Add <code>id="#dropper-format"</code></p>
-                    <input
-                      id="dropper-format"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your format"
-                    />
+                  <div class="col-sm-12 col-xl-6 mb-1">
+                    <p>Gender: <span class="h6">{{ citizen.gender }}</span></p>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Language Support</h4>
-                    <p>Add <code>id="#dropper-lang"</code></p>
-                    <input
-                      id="dropper-lang"
-                      class="form-control"
-                      type="text"
-                      placeholder="Language Support"
-                    />
+                  <div class="col-sm-12 col-xl-6 mb-1">
+                    <p>
+                      Marital Status:
+                      <span class="h6">{{ citizen.marital_status }}</span>
+                    </p>
                   </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Lock Support</h4>
-                    <p>Add <code>id="#dropper-lock"</code></p>
-                    <input
-                      id="dropper-lock"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Max Year</h4>
-                    <p>Add <code>id="#dropper-max-year"</code></p>
-                    <input
-                      id="dropper-max-year"
-                      class="form-control"
-                      type="text"
-                      placeholder="Max Year 2020"
-                    />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Min Year</h4>
-                    <p>Add <code>id="#dropper-min-year"</code></p>
-                    <input
-                      id="dropper-min-year"
-                      class="form-control"
-                      type="text"
-                      placeholder="Min Year 1990"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Year-range</h4>
-                    <p>Add <code>id="#year-range"</code></p>
-                    <input
-                      id="year-range"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4">
-                    <h4 class="sub-title">Custom Width</h4>
-                    <p>Add <code>id="#dropper-width"</code></p>
-                    <input
-                      id="dropper-width"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
+                  <div class="col-lg-12 mb-1 mt-2">
+                    <button
+                      type="button"
+                      class="btn btn-light btn-rounded float-right mr-1"
+                      data-toggle="modal"
+                      data-target="#serviceModal"
+                    >
+                      <i class="ik ik-edit text-primary"></i>
+                    </button>
+                    <h4 class="sub-title">Residence Address</h4>
+                    <div class="row">
+                      <div class="col-sm-12 col-xl-6">
+                        <p>
+                          Province:
+                          <span class="h6">
+                            {% if address.province %}{{ address.province }}
+                            {%else%} Null {% endif %}</span
+                          >
+                        </p>
+                      </div>
+                      <div class="col-sm-12 col-xl-6">
+                        <p>
+                          State:
+                          <span class="h6">
+                            {% if address.state %} {{ address.state }} {%else%}
+                            Null {% endif %}</span
+                          >
+                        </p>
+                      </div>
+                      <div class="col-sm-12 col-xl-6">
+                        <p>
+                          City:
+                          <span class="h6">
+                            {% if address.city %} {{ address.city }} {%else%}
+                            Null {% endif %}</span
+                          >
+                        </p>
+                      </div>
+                      <div class="col-sm-12 col-xl-6">
+                        <p>
+                          Street:
+                          <span class="h6">
+                            {% if address.street %} {{ address.street }}
+                            {%else%} Null {% endif %}</span
+                          >
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="row">
+          {% if parents %}
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3>Default Date-Picker</h3>
+                <h6>Citizen Parents</h6>
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date</h4>
-                    <p>Add type<code>&lt;input type="date"&gt;</code></p>
-                    <input class="form-control" type="date" />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Month</h4>
-                    <p>Add type<code>&lt;input type="month"&gt;</code></p>
-                    <input class="form-control" type="month" />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Week</h4>
-                    <p>Add type<code>&lt;input type="week"&gt;</code></p>
-                    <input class="form-control" type="week" />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date-time-local</h4>
-                    <p>
-                      Add type<code>&lt;input type="datetime-local"&gt;</code>
+                  {% for data in parents %}
+                  <div class="col-sm-12 col-xl-6 mb-1">
+                    <button
+                      type="button"
+                      class="btn btn-light btn-rounded float-right mr-1"
+                      data-toggle="modal"
+                      data-target="#serviceModal"
+                    >
+                      <i class="ik ik-edit text-primary"></i>
+                    </button>
+                    <span class="font-weight-bold">{{ data.parent }} </span>
+                    <p class="mb-1">
+                      Names:
+                      <span class="h6">
+                        {% if data.first_name and data.last_name %} {{
+                        data.first_name }} {{ data.last_name }} {% else %} Null
+                        {% endif %}
+                      </span>
                     </p>
-                    <input class="form-control" type="datetime-local" />
+                    <p class="mb-1">
+                      Professionalism:
+                      <span class="h6">
+                        {% if data.professionalism %} {{ data.professionalism }}
+                        {% else %} Null {% endif %}
+                      </span>
+                    </p>
                   </div>
-                  <div class="col-sm-12 col-xl-4">
-                    <h4 class="sub-title">Time</h4>
-                    <p>Add type<code>&lt;input type="time"&gt;</code></p>
-                    <input class="form-control" type="time" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                <h5>Date-Dropper</h5>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Default</h4>
-                    <p>Add <code>id="#dropper-default"</code></p>
-                    <input
-                      id="dropper-default"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">With Animation</h4>
-                    <p>Add <code>id="#dropper-animation"</code></p>
-                    <input
-                      id="dropper-animation"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your animation"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date format</h4>
-                    <p>Add <code>id="#dropper-format"</code></p>
-                    <input
-                      id="dropper-format"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your format"
-                    />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Language Support</h4>
-                    <p>Add <code>id="#dropper-lang"</code></p>
-                    <input
-                      id="dropper-lang"
-                      class="form-control"
-                      type="text"
-                      placeholder="Language Support"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Lock Support</h4>
-                    <p>Add <code>id="#dropper-lock"</code></p>
-                    <input
-                      id="dropper-lock"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Max Year</h4>
-                    <p>Add <code>id="#dropper-max-year"</code></p>
-                    <input
-                      id="dropper-max-year"
-                      class="form-control"
-                      type="text"
-                      placeholder="Max Year 2020"
-                    />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Min Year</h4>
-                    <p>Add <code>id="#dropper-min-year"</code></p>
-                    <input
-                      id="dropper-min-year"
-                      class="form-control"
-                      type="text"
-                      placeholder="Min Year 1990"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Year-range</h4>
-                    <p>Add <code>id="#year-range"</code></p>
-                    <input
-                      id="year-range"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4">
-                    <h4 class="sub-title">Custom Width</h4>
-                    <p>Add <code>id="#dropper-width"</code></p>
-                    <input
-                      id="dropper-width"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
+                  {% endfor %}
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="row">
+          {% endif %} {% if documents %}
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3>Default Date-Picker</h3>
+                <h6>Citizen Files</h6>
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date</h4>
-                    <p>Add type<code>&lt;input type="date"&gt;</code></p>
-                    <input class="form-control" type="date" />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Month</h4>
-                    <p>Add type<code>&lt;input type="month"&gt;</code></p>
-                    <input class="form-control" type="month" />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Week</h4>
-                    <p>Add type<code>&lt;input type="week"&gt;</code></p>
-                    <input class="form-control" type="week" />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date-time-local</h4>
-                    <p>
-                      Add type<code>&lt;input type="datetime-local"&gt;</code>
+                  {% for document in documents %}
+                  <div class="col-sm-12 col-xl-6 mb-1">
+                    <span class="font-weight-bold">Document </span>
+                    <p class="mb-1">
+                      Type: <span class="h6"> {{ document.document }} </span>
                     </p>
-                    <input class="form-control" type="datetime-local" />
+                    <p class="mb-1">
+                      File:
+                      <span class="h6">
+                        <a
+                          href="{{document.file.url}}"
+                          target="_blank"
+                          download
+                        >
+                          {{document.file}}
+                        </a>
+                      </span>
+                    </p>
                   </div>
-                  <div class="col-sm-12 col-xl-4">
-                    <h4 class="sub-title">Time</h4>
-                    <p>Add type<code>&lt;input type="time"&gt;</code></p>
-                    <input class="form-control" type="time" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                <h5>Date-Dropper</h5>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Default</h4>
-                    <p>Add <code>id="#dropper-default"</code></p>
-                    <input
-                      id="dropper-default"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">With Animation</h4>
-                    <p>Add <code>id="#dropper-animation"</code></p>
-                    <input
-                      id="dropper-animation"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your animation"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Date format</h4>
-                    <p>Add <code>id="#dropper-format"</code></p>
-                    <input
-                      id="dropper-format"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your format"
-                    />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Language Support</h4>
-                    <p>Add <code>id="#dropper-lang"</code></p>
-                    <input
-                      id="dropper-lang"
-                      class="form-control"
-                      type="text"
-                      placeholder="Language Support"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Lock Support</h4>
-                    <p>Add <code>id="#dropper-lock"</code></p>
-                    <input
-                      id="dropper-lock"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Max Year</h4>
-                    <p>Add <code>id="#dropper-max-year"</code></p>
-                    <input
-                      id="dropper-max-year"
-                      class="form-control"
-                      type="text"
-                      placeholder="Max Year 2020"
-                    />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Min Year</h4>
-                    <p>Add <code>id="#dropper-min-year"</code></p>
-                    <input
-                      id="dropper-min-year"
-                      class="form-control"
-                      type="text"
-                      placeholder="Min Year 1990"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4 mb-30">
-                    <h4 class="sub-title">Year-range</h4>
-                    <p>Add <code>id="#year-range"</code></p>
-                    <input
-                      id="year-range"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
-                  <div class="col-sm-12 col-xl-4">
-                    <h4 class="sub-title">Custom Width</h4>
-                    <p>Add <code>id="#dropper-width"</code></p>
-                    <input
-                      id="dropper-width"
-                      class="form-control"
-                      type="text"
-                      placeholder="Select your date"
-                    />
-                  </div>
+                  {% endfor %}
                 </div>
               </div>
             </div>
           </div>
+          {% endif %}
         </div>
 
         <div
           class="modal fade"
-          id="registerModal"
+          id="updateCitizenModal"
           tabindex="-1"
           role="dialog"
-          aria-labelledby="registerModalTitle"
+          aria-labelledby="updateCitizenModalTitle"
           aria-hidden="true"
         >
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="registerModalTitle">
-                  REGISTER NEW CITIZEN
+                <h5 class="modal-title" id="updateCitizenModalTitle">
+                  <i class="ik ik-edit text-primary"></i> EDIT CITIZEN
+                  INFORMATION
                 </h5>
                 <button
                   type="button"
