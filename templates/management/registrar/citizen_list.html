@@ -48,24 +48,33 @@
             <div class="card">
               <div class="card-header"><h3>Citizens List</h3></div>
               <div class="card-body">
-                <button
-                  type="button"
-                  class="btn btn-secondary float-right ml-1"
-                  data-toggle="modal"
-                  data-target="#registerModal"
-                >
-                  <i class="ik ik-share"></i>
-                  Upload Citizens List
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary float-right"
-                  data-toggle="modal"
-                  data-target="#registerModal"
-                >
-                  <i class="ik ik-plus"></i>
-                  New Citizen
-                </button>
+                <div class="dropdown d-inline-block float-right">
+                  <a
+                    class="nav-link dropdown-toggle text-dark"
+                    href="#"
+                    id="moreDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="ik ik-more-vertical"></i> More Action
+                  </a>
+                  <div
+                    class="dropdown-menu dropdown-menu-right"
+                    aria-labelledby="moreDropdown"
+                  >
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#registerModal"
+                    >
+                      <i class="ik ik-user-plus text-primary"></i>
+                      New Citizen
+                    </a>
+                  </div>
+                </div>
 
                 <table id="data_table" class="table">
                   <thead>
