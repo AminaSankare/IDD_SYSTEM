@@ -248,14 +248,12 @@ def citizenEdit(request, pk):
         if Citizen.objects.filter(id=citizen_id).exists():
             # if exists
             citizenData = Citizen.objects.get(id=citizen_id)
-            # get address data
-            addressData = CitizenAddress.objects.filter(citizen=citizen_id)
             # get parent data
             parentData = CitizenParent.objects.filter(citizen=citizen_id)
             # get document data
             documentData = CitizenDocument.objects.filter(citizen=citizen_id)
 
-            if 'submit' in request.POST:
+            if 'update_citizen' in request.POST:
                 # Retrieve the form data from the request
                 first_name = request.POST.get("first_name")
                 last_name = request.POST.get("last_name")
@@ -266,29 +264,91 @@ def citizenEdit(request, pk):
                 gender = request.POST.get("gender")
                 marital_status = request.POST.get("marital_status")
 
-                if Citizen.objects.filter(nid_number=nid_number).exclude(id=citizen_id).exists():
-                    messages.warning(request, "The citizen with " +
-                                     nid_number+", Already exist.")
-                    return redirect(citizenEdit, pk)
+                if first_name and last_name and nationality and birthdate and birth_place and gender and marital_status:
+
+                    if Citizen.objects.filter(nid_number=nid_number).exclude(id=citizen_id).exists():
+                        messages.warning(request, "The citizen with " +
+                                         nid_number+", Already exist.")
+                        return redirect(citizenEdit, pk)
+                    else:
+                        # Update Service
+                        citizen_updated = Citizen.objects.filter(id=citizen_id).update(
+                            first_name=first_name,
+                            last_name=last_name,
+                            nationality=nationality,
+                            nid_number=nid_number,
+                            birthdate=birthdate,
+                            birth_place=birth_place,
+                            gender=gender,
+                            marital_status=marital_status,
+                        )
+                        if citizen_updated:
+                            messages.success(
+                                request, "Citizen profile updated successfully.")
+                            return redirect(citizenEdit, pk)
+                        else:
+                            messages.error(request, ('Process Failed.'))
+                            return redirect(citizenEdit, pk)
                 else:
-                    # Update Service
-                    citizen_updated = Citizen.objects.filter(id=citizen_id).update(
-                        first_name=first_name,
-                        last_name=last_name,
-                        nationality=nationality,
-                        nid_number=nid_number,
-                        birthdate=birthdate,
-                        birth_place=birth_place,
-                        gender=gender,
-                        marital_status=marital_status,
+                    messages.error(request, ('All fields are required.'))
+                    return redirect(citizenEdit, pk)
+
+            elif 'update_address' in request.POST:
+                # Retrieve the form data from the request
+                province = request.POST.get("province")
+                state = request.POST.get("state")
+                city = request.POST.get("city")
+                street = request.POST.get("street")
+
+                if province and state and city and street:
+                    # Update address
+                    address_updated = CitizenAddress.objects.filter(citizen=citizen_id).update(
+                        province=province,
+                        state=state,
+                        city=city,
+                        street=street
                     )
-                    if citizen_updated:
+                    if address_updated:
                         messages.success(
-                            request, "Citizen profile updated successfully.")
+                            request, "Citizen address updated successfully.")
                         return redirect(citizenEdit, pk)
                     else:
                         messages.error(request, ('Process Failed.'))
                         return redirect(citizenEdit, pk)
+                else:
+                    messages.error(request, ('All fields are required.'))
+                    return redirect(citizenEdit, pk)
+
+            elif 'update_parents' in request.POST:
+                father_fname = request.POST.get("father_fname")
+                father_lname = request.POST.get("father_lname")
+                father_profession = request.POST.get("father_profession")
+                mother_fname = request.POST.get("mother_fname")
+                mother_lname = request.POST.get("mother_lname")
+                mother_profession = request.POST.get("mother_profession")
+
+                if father_fname and father_lname and father_profession and mother_fname and mother_lname and mother_profession:
+                    # Update address
+                    parentF_updated = CitizenParent.objects.filter(citizen=citizen_id, parent="Father").update(
+                        first_name=father_fname,
+                        last_name=father_lname,
+                        professionalism=father_profession
+                    )
+                    parentM_updated = CitizenParent.objects.filter(citizen=citizen_id, parent="Mother").update(
+                        first_name=mother_fname,
+                        last_name=mother_lname,
+                        professionalism=mother_profession
+                    )
+                    if parentF_updated and parentM_updated:
+                        messages.success(
+                            request, "Citizen parent info updated successfully.")
+                        return redirect(citizenEdit, pk)
+                    else:
+                        messages.error(request, ('Process Failed.'))
+                        return redirect(citizenEdit, pk)
+                else:
+                    messages.error(request, ('All fields are required.'))
+                    return redirect(citizenEdit, pk)
 
             elif 'delete' in request.POST:
                 # Delete Citizen
@@ -302,7 +362,6 @@ def citizenEdit(request, pk):
                     'title': 'Registrar - Citizen Info',
                     'citizenList_active': 'active',
                     'citizen': citizenData,
-                    'address': addressData,
                     'parents': parentData,
                     'documents': documentData,
                 }

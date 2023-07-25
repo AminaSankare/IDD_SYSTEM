@@ -117,7 +117,7 @@
                       type="button"
                       class="btn btn-light btn-rounded float-right mr-1"
                       data-toggle="modal"
-                      data-target="#serviceModal"
+                      data-target="#updateAddresModal"
                     >
                       <i class="ik ik-edit text-primary"></i>
                     </button>
@@ -127,7 +127,7 @@
                         <p>
                           Province:
                           <span class="h6">
-                            {% if address.province %}{{ address.province }}
+                            {% if citizen.address.province %}{{ citizen.address.province }}
                             {%else%} Null {% endif %}</span
                           >
                         </p>
@@ -136,7 +136,7 @@
                         <p>
                           State:
                           <span class="h6">
-                            {% if address.state %} {{ address.state }} {%else%}
+                            {% if citizen.address.state %} {{ citizen.address.state }} {%else%}
                             Null {% endif %}</span
                           >
                         </p>
@@ -145,7 +145,7 @@
                         <p>
                           City:
                           <span class="h6">
-                            {% if address.city %} {{ address.city }} {%else%}
+                            {% if citizen.address.city %} {{ citizen.address.city }} {%else%}
                             Null {% endif %}</span
                           >
                         </p>
@@ -154,7 +154,7 @@
                         <p>
                           Street:
                           <span class="h6">
-                            {% if address.street %} {{ address.street }}
+                            {% if citizen.address.street %} {{ citizen.address.street }}
                             {%else%} Null {% endif %}</span
                           >
                         </p>
@@ -170,33 +170,34 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h6>Citizen Parents</h6>
+                <h6>
+                  Citizen Parents
+                </h6>
               </div>
               <div class="card-body">
+                <button
+                  type="button"
+                  class="btn btn-light btn-rounded float-right mr-1"
+                  data-toggle="modal"
+                  data-target="#updateParentsModal"
+                >
+                  <i class="ik ik-edit text-primary"></i>
+                </button>
                 <div class="row">
                   {% for data in parents %}
                   <div class="col-sm-12 col-xl-6 mb-1">
-                    <button
-                      type="button"
-                      class="btn btn-light btn-rounded float-right mr-1"
-                      data-toggle="modal"
-                      data-target="#serviceModal"
-                    >
-                      <i class="ik ik-edit text-primary"></i>
-                    </button>
-                    <span class="font-weight-bold">{{ data.parent }} </span>
+                    <span class="font-weight-bold"> {{data.parent}} </span>
                     <p class="mb-1">
                       Names:
                       <span class="h6">
-                        {% if data.first_name and data.last_name %} {{
-                        data.first_name }} {{ data.last_name }} {% else %} Null
+                        {% if data.first_name and data.last_name %} {{data.first_name}} {{data.last_name}} {% else %} Null
                         {% endif %}
                       </span>
                     </p>
                     <p class="mb-1">
                       Professionalism:
                       <span class="h6">
-                        {% if data.professionalism %} {{ data.professionalism }}
+                        {% if data.professionalism %} {{data.professionalism}}
                         {% else %} Null {% endif %}
                       </span>
                     </p>
@@ -273,11 +274,12 @@
                       <div class="form-group">
                         <label for="first_name">First Name</label>
                         <input
-                          type="email"
+                          type="text"
                           class="form-control"
-                          name=""
+                          name="first_name"
                           id="first_name"
                           placeholder="First Name ..."
+                          value="{{citizen.first_name}}"
                         />
                       </div>
                     </div>
@@ -285,11 +287,12 @@
                       <div class="form-group">
                         <label for="last_name">Last Namer</label>
                         <input
-                          type="email"
+                          type="text"
                           class="form-control"
-                          name=""
+                          name="last_name"
                           id="last_name"
                           placeholder="Last Name ..."
+                          value="{{citizen.last_name}}"
                         />
                       </div>
                     </div>
@@ -303,7 +306,7 @@
                       required
                     >
                       <option value="">Select Nationality</option>
-                      <option value="Ghana">Ghana</option>
+                      <option {% if citizen.nationality == 'Ghana' %} selected {% endif %} value="Ghana">Ghana</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -314,6 +317,7 @@
                       name="nid_number"
                       id="nid_number"
                       placeholder="ID Number ..."
+                      value="{{citizen.nid_number}}"
                     />
                   </div>
                   <div class="form-group">
@@ -323,6 +327,7 @@
                       class="form-control"
                       name="birthdate"
                       id="birthdate"
+                      value="{{citizen.birthdate}}"
                     />
                   </div>
                   <div class="form-group">
@@ -333,6 +338,7 @@
                       name="birth_place"
                       id="birth_place"
                       placeholder="Birth Place ..."
+                      value="{{citizen.birth_place}}"
                     />
                   </div>
                   <div class="row">
@@ -346,8 +352,8 @@
                           required
                         >
                           <option value="">Select Gender</option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
+                          <option {% if citizen.gender == 'Male' %} selected {% endif %} value="Male">Male</option>
+                          <option {% if citizen.gender == 'Female' %} selected {% endif %} value="Female">Female</option>
                         </select>
                       </div>
                     </div>
@@ -361,11 +367,11 @@
                           required
                         >
                           <option value="">Select Marital</option>
-                          <option value="Single">Single</option>
-                          <option value="Married">Married</option>
-                          <option value="Divorced">Divorced</option>
-                          <option value="Separated">Separated</option>
-                          <option value="Widowed">Widowed</option>
+                          <option {% if citizen.marital_status == 'Single' %} selected {% endif %} value="Single">Single</option>
+                          <option {% if citizen.marital_status == 'Married' %} selected {% endif %} value="Married">Married</option>
+                          <option {% if citizen.marital_status == 'Divorced' %} selected {% endif %} value="Divorced">Divorced</option>
+                          <option {% if citizen.marital_status == 'Separated' %} selected {% endif %} value="Separated">Separated</option>
+                          <option {% if citizen.marital_status == 'Widowed' %} selected {% endif %} value="Widowed">Widowed</option>
                         </select>
                       </div>
                     </div>
@@ -381,11 +387,339 @@
                   </button>
                   <button
                     type="submit"
-                    name="new_stack"
+                    name="update_citizen"
                     class="btn btn-primary"
                   >
                     <i class="ik ik-save"></i>
                     Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="modal fade"
+          id="updateAddresModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="updateAddresModalTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updateAddresModalTitle">
+                  <i class="ik ik-edit text-primary"></i> EDIT CITIZEN
+                  ADDRESSS
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="province">Province</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="province"
+                      id="province"
+                      placeholder="province ..."
+                      value="{{citizen.address.province}}"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="state">State</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="state"
+                      id="state"
+                      placeholder="state ..."
+                      value="{{citizen.address.state}}"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="city"
+                      id="city"
+                      placeholder="city ..."
+                      value="{{citizen.address.city}}"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="street">Street</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="street"
+                      id="street"
+                      placeholder="street ..."
+                      value="{{citizen.address.street}}"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    name="update_address"
+                    class="btn btn-primary"
+                  >
+                    <i class="ik ik-save"></i>
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="modal fade"
+          id="updateParentsModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="updateParentsModalTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updateParentsModalTitle">
+                  <i class="ik ik-edit text-primary"></i> CITIZEN
+                  PARENTS INFO
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <div class="">
+                    <span class="sub-title">Father Information</span>
+                    <hr />
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="father_fname">First Name</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="father_fname"
+                            id="father_fname"
+                            placeholder="First Name ..."
+                            {%if parents %}
+                            {% for data in parents %}
+                            {% if data.parent == "Father" %}
+                            value="{{data.first_name}}"
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="father_lname">Last Namer</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="father_lname"
+                            id="father_lname"
+                            placeholder="Last Name ..."
+                            {%if parents %}
+                            {% for data in parents %}
+                            {% if data.parent == "Father" %}
+                            value="{{data.last_name}}"
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="father_profession">Professionalism</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="father_profession"
+                        id="father_profession"
+                        placeholder="father professionalism ..."
+                        required
+                        {%if parents %}
+                        {% for data in parents %}
+                        {% if data.parent == "Father" %}
+                        value="{{data.professionalism}}"
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div>
+                    <span class="sub-title">Mother Information</span>
+                    <hr />
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="mother_fname">First Name</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="mother_fname"
+                            id="mother_fname"
+                            placeholder="First Name ..."
+                            required
+                            {%if parents %}
+                            {% for data in parents %}
+                            {% if data.parent == "Mother" %}
+                            value="{{data.first_name}}"
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="mother_lname">Last Namer</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="mother_lname"
+                            id="mother_lname"
+                            placeholder="Last Name ..."
+                            required
+                            {%if parents %}
+                            {% for data in parents %}
+                            {% if data.parent == "Mother" %}
+                            value="{{data.last_name}}"
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="mother_profession">Professionalism</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="mother_profession"
+                        id="mother_profession"
+                        placeholder="Mother professionalism ..."
+                        required
+                        {%if parents %}
+                        {% for data in parents %}
+                        {% if data.parent == "Mother" %}
+                        value="{{data.professionalism}}"
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    name="update_parents"
+                    class="btn btn-primary"
+                  >
+                    <i class="ik ik-save"></i>
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="modal fade"
+          id="delete_confirmation"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="deleteModalTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalTitle">
+                  <i class="ik ik-trash text-danger"></i> DELETE CITIZEN
+                  INFORMATION
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <h6 align="center">
+                    Are you sure you want to delete <br />
+                    Citizen "{{citizen.first_name}} {{citizen.last_name}}" ?
+                  </h6>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    name="delete"
+                    class="btn btn-danger"
+                  >
+                    Yes, Delete
                   </button>
                 </div>
               </form>
