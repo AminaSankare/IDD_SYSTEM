@@ -1,6 +1,5 @@
 from django.utils.safestring import mark_safe
 from django.core.validators import FileExtensionValidator
-from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -30,8 +29,6 @@ class User(AbstractUser):
         validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],
         blank=True, null=True
     )
-    phone1 = PhoneNumberField(verbose_name="Phone 1", blank=True)
-    phone2 = PhoneNumberField(verbose_name="Phone 2", blank=True)
 
     username = None
 

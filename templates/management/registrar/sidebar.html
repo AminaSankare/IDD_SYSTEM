@@ -25,37 +25,53 @@
     <div class="nav-container">
       <nav id="main-menu-navigation" class="navigation-main">
         <div class="nav-lavel">Navigation</div>
-        <div class="nav-item active">
+        <div class="nav-item {{dash_active}}">
           <a href="{% url 'dashboard' %}">
             <i class="ik ik-bar-chart-2"></i> <span>Dashboard</span>
           </a>
         </div>
 
         <div class="nav-lavel">Applications</div>
-        <div class="nav-item has-sub">
+        <div class="nav-item has-sub {{request_active}}">
           <a href="#">
             <i class="ik ik-list"></i> <span>Document Applications</span>
+            {% if newApplications %}
             <span class="badge badge-yellow">New</span>
+            {% endif %}
           </a>
           <div class="submenu-content">
-            <a href="{% url 'new_application' %}" class="menu-item">
-              Pending List <span class="badge badge-yellow">11</span>
+            <a
+              href="{% url 'new_application' %}"
+              class="menu-item {{newRequest_active}}"
+            >
+              Pending List {% if newApplications %}
+              <span class="badge badge-yellow">
+                {{newApplications.count}}
+              </span>
+              {% else %}
+              <span class="badge badge-secondary">
+                {{newApplications.count}}
+              </span>
+              {% endif %}
             </a>
-            <a href="{% url 'archived_request' %}" class="menu-item">
+            <a
+              href="{% url 'archived_request' %}"
+              class="menu-item {{archived_active}}"
+            >
               Archive List</a
             >
           </div>
         </div>
 
         <div class="nav-lavel">Citizen</div>
-        <div class="nav-item">
+        <div class="nav-item {{citizenList_active}}">
           <a href="{% url 'citizens' %}">
             <i class="ik ik-users"></i> <span>Citizens List</span>
           </a>
         </div>
 
         <div class="nav-lavel">Services</div>
-        <div class="nav-item">
+        <div class="nav-item {{service_active}}">
           <a href="{% url 'services' %}">
             <i class="ik ik-list"></i> <span>Our Services</span>
           </a>

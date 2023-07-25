@@ -30,11 +30,8 @@
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="userDropdown"
           >
-            <a class="dropdown-item" href="pages/profile.html">
+            <a class="dropdown-item" href="{% url 'profile' %}">
               <i class="ik ik-user dropdown-icon"></i> Profile
-            </a>
-            <a class="dropdown-item" href="#">
-              <i class="ik ik-settings dropdown-icon"></i> Settings
             </a>
             <a class="dropdown-item" href="{% url 'registrar_logout' %}">
               <i class="ik ik-power dropdown-icon"></i> Logout

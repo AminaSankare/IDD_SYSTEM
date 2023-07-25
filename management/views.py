@@ -57,7 +57,7 @@ def dashboard(request):
         # getting data
         citizens = Citizen.objects.filter()
         newApplications = DocumentApplication.objects.filter(
-            status__isnull=False)
+            status__isnull=True)
 
         context = {
             'title': 'Civil Registrar Dashboard',
@@ -71,12 +71,95 @@ def dashboard(request):
         return redirect(registrarLogin)
 
 
+@login_required(login_url='registrar_login')
+def registrarProfile(request):
+    if request.user.is_authenticated and request.user.is_registrar == True:
+        if 'update_password' in request.POST:
+            old_password = request.POST.get("old_pass")
+            new_password = request.POST.get("pass1")
+            confirmed_new_password = request.POST.get("pass2")
+
+            if old_password and new_password and confirmed_new_password:
+                user = get_user_model().objects.get(email=request.user.email)
+
+                if not user.check_password(old_password):
+                    messages.error(
+                        request, "Your old password is not correct!")
+                    return redirect(registrarProfile)
+
+                else:
+                    if len(new_password) < 5:
+                        messages.warning(request, "Your password is too weak!")
+                        return redirect(registrarProfile)
+
+                    elif new_password != confirmed_new_password:
+                        messages.error(
+                            request, "Your new password not match the confirm password !")
+                        return redirect(registrarProfile)
+
+                    else:
+                        user.set_password(new_password)
+                        user.save()
+                        update_session_auth_hash(request, user)
+
+                        messages.success(
+                            request, "Your password has been changed successfully.!")
+                        return redirect(registrarProfile)
+
+            else:
+                messages.error(request, "Error , All fields are required !")
+                return redirect(registrarProfile)
+
+        else:
+            newApplications = DocumentApplication.objects.filter(
+                status__isnull=True)
+            context = {
+                'title': 'Registrar | Profile',
+                'newApplications': newApplications,
+            }
+            return render(request, 'management/registrar/profile.html', context)
+    else:
+        messages.warning(request, ('You have to login to view the page!'))
+        return redirect(registrarLogin)
+
+
+@login_required(login_url='registrar_login')
 def newApplication(request,):
-    return render(request, 'management/registrar/application_list.html')
+    if request.user.is_authenticated and request.user.is_registrar == True:
+        # getting new request
+        newApplications = DocumentApplication.objects.filter(
+            status__isnull=True)
+        context = {
+            'title': 'Registrar - New Document Requests',
+            'request_active': 'open active',
+            'newRequest_active': 'active',
+            'newApplications': newApplications,
+        }
+        return render(request, 'management/registrar/application_list.html', context)
+    else:
+        messages.warning(request, ('You have to login to view the page!'))
+        return redirect(registrarLogin)
 
 
+@login_required(login_url='registrar_login')
 def archivedRequest(request,):
-    return render(request, 'management/registrar/archived_request.html')
+    if request.user.is_authenticated and request.user.is_registrar == True:
+        newApplications = DocumentApplication.objects.filter(
+            status__isnull=True)
+        # getting archived requests
+        archivedRequests = DocumentApplication.objects.filter(
+            status__isnull=False)
+        context = {
+            'title': 'Registrar - Archived Document Requests',
+            'request_active': 'open active',
+            'archived_active': 'active',
+            'archivedRequests': archivedRequests,
+            'newApplications': newApplications,
+        }
+        return render(request, 'management/registrar/archived_request.html', context)
+    else:
+        messages.warning(request, ('You have to login to view the page!'))
+        return redirect(registrarLogin)
 
 
 @login_required(login_url='registrar_login')
@@ -112,13 +195,15 @@ def services(request):
                 messages.error(request, "Error , Service name is required!")
                 return redirect(services)
         else:
+            newApplications = DocumentApplication.objects.filter(
+                status__isnull=True)
             # getting services
             ServiceData = Service.objects.filter()
             context = {
                 'title': 'Registrar - Service List',
                 'service_active': 'active',
                 'services': ServiceData,
-                'service_total': ServiceData.count(),
+                'newApplications': newApplications,
             }
             return render(request, 'management/registrar/services.html', context)
     else:
@@ -174,10 +259,13 @@ def servicesEdit(request, pk):
                 return redirect(services)
 
             else:
+                newApplications = DocumentApplication.objects.filter(
+                    status__isnull=True)
                 context = {
                     'title': 'Registrar - Service Info',
                     'service_active': 'active',
                     'service': foundData,
+                    'newApplications': newApplications,
                 }
                 return render(request, 'management/registrar/service_details.html', context)
         else:
@@ -227,12 +315,15 @@ def citizenList(request):
                 messages.error(request, ('All fields are required.'))
                 return redirect(citizenList)
         else:
+            newApplications = DocumentApplication.objects.filter(
+                status__isnull=True)
             # getting citizens
             CitizenData = Citizen.objects.filter()
             context = {
                 'title': 'Registrar - Citizen List',
                 'citizenList_active': 'active',
                 'citizens': CitizenData,
+                'newApplications': newApplications,
             }
             return render(request, 'management/registrar/citizen_list.html', context)
     else:
@@ -358,12 +449,15 @@ def citizenEdit(request, pk):
                 return redirect(citizenList)
 
             else:
+                newApplications = DocumentApplication.objects.filter(
+                    status__isnull=True)
                 context = {
                     'title': 'Registrar - Citizen Info',
                     'citizenList_active': 'active',
                     'citizen': citizenData,
                     'parents': parentData,
                     'documents': documentData,
+                    'newApplications': newApplications,
                 }
                 return render(request, 'management/registrar/citizen_info.html', context)
         else:
