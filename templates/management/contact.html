@@ -1,0 +1,136 @@
+{% extends "management/index.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact us</title>
+  </head>
+
+  <body>
+    {% block main_content%}
+
+    <!--header section start -->
+    <div class="header_section header_bg">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="logo">
+          <a href="index.html"
+            ><img width="40" src="{% static 'img/logo.png' %}" /> Individual
+            Descriptive Document Aacquisition System
+          </a>
+        </div>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}#service">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <!--header section end -->
+    <!--costume header section start -->
+    <div class="costume_header">
+      <div class="container">
+        <div class="menu_main">
+          <ul>
+            <li class="{{home_active}}"><a href="{% url 'home' %}">Home</a></li>
+            <li class="{{home_active}}">
+              <a href="{% url 'home' %}#service">Services</a>
+            </li>
+            <li class="{{contact_active}}">
+              <a href="{% url 'contact' %}">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+        <div class="menu_main_1">
+          <ul>
+            <li><a href="{% url 'registrar_login' %}">login</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!--costume header section end -->
+    <!--contact section start -->
+    <div class="contact_section layout_padding">
+      <div class="container">
+        <h1 class="work_taital">Get In Touch</h1>
+      </div>
+    </div>
+    <div class="contact_section_2">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6 padding_0">
+            <div>
+              <img
+                src="{% static 'style/images/img-10.png' %}"
+                class="image_10"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="email_text">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="email-bt"
+                  placeholder="Name"
+                  name="Email"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="email-bt"
+                  placeholder="Email"
+                  name="Email"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="email-bt"
+                  placeholder="Phone Numbar"
+                  name="Email"
+                />
+              </div>
+              <div class="form-group">
+                <textarea
+                  class="massage-bt"
+                  placeholder="Massage"
+                  rows="5"
+                  id="comment"
+                  name="Massage"
+                ></textarea>
+              </div>
+              <div class="send_btn"><a href="#">SEND</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--contact section end -->
+
+    {% endblock %}
+  </body>
+</html>
