@@ -14,7 +14,7 @@ urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-# THE FOLLOWING FUNCTION WILL HELP US TO HANDLE THE UNVAILABLE LINK OR WEB PAGE
+# THE FOLLOWING FUNCTION WILL HELP US TO HANDLE THE UNAVAILABLE LINK OR WEB PAGE
 handler404 = "management.views.handle_not_found"
 
 
