@@ -14,8 +14,8 @@ class CustomUserAdmin(UserAdmin):
         ('User Credential', {'fields': ('email', 'password')}),
         ('Personal Info', {'fields': ('first_name', 'last_name',
          'gender', ('profilePicture',),)}),
-        ('Permissions', {'fields': ('is_active',
-         'is_staff', 'is_registrar', 'is_superuser')}),
+        ('Permissions', {'fields': (('is_active',
+         'is_staff', 'is_registrar', 'is_superuser'), 'user_permissions',)}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
@@ -25,7 +25,7 @@ class CustomUserAdmin(UserAdmin):
         }),
         ('Permission', {
             'classes': ('collapse',),
-            'fields': ('is_active', 'is_staff', 'is_registrar', 'is_superuser',),
+            'fields': (('is_active', 'is_staff', 'is_registrar', 'is_superuser'), 'user_permissions',),
         }),
         ('User Credential', {
             'classes': ('wide',),
@@ -33,6 +33,10 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
     ordering = ('email',)
+    list_editable = ()
+    list_per_page = 10
+    date_hierarchy = ('date_joined')
+    filter_horizontal = ('groups', 'user_permissions',)
 
 
 admin.site.unregister(Group)
