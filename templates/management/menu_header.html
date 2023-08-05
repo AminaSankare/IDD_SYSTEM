@@ -1,0 +1,24 @@
+{% load static %}
+<div class="costume_header">
+  <div class="container">
+    <div class="menu_main">
+      <ul>
+        <li class="{{service_active}}">
+          <a href="{% url 'all_services' %}">All Services</a>
+        </li>
+        <li class="{{contact_active}}">
+          <a href="{% url 'contact' %}">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+    <div class="menu_main_1">
+      <ul>
+        <li>
+          <a href="{% url 'registrar_login' %}">
+            <i class="fa fa-user"></i> login
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model, authenticate, login, logout, upd
 from django.core.mail import send_mail
 from django.conf import settings
 
-from .models import Citizen, CitizenAddress, CitizenParent, CitizenDocument, DocumentApplication, Service
+from .models import Citizen, CitizenAddress, CitizenParent, CitizenDocument, Application, Service
 
 # your views here.
 
@@ -17,14 +17,112 @@ def handle_not_found(request, exception):
 
 
 def home(request):
+    return redirect(all_services)
+
+
+def all_services(request):
     # getting services
     ServiceData = Service.objects.filter()
     context = {
         'title': 'Welcome',
-        'home_active': 'active',
+        'service_active': 'active',
         'serviceData': ServiceData
     }
     return render(request, 'management/home.html', context)
+
+
+def service_details(request, name):
+    service_name = name
+    # check if category exist
+    if Service.objects.filter(name=service_name).exists():
+        # if exists
+        foundData = Service.objects.get(name=service_name)
+        if 'citizen_identity' in request.POST:
+            citizen_id_number = request.POST.get("citizen_id_number")
+
+            if citizen_id_number:
+                if not Citizen.objects.filter(nid_number=citizen_id_number).exists():
+                    messages.warning(request, "Citizen ID Number not found!")
+                    return redirect(service_details, name)
+                else:
+                    request.session['valid_applicant'] = Citizen.objects.get(
+                        nid_number=citizen_id_number).id
+                    return redirect(citizen_request, name)
+            else:
+                messages.error(
+                    request, "Error , Citizen ID Number is required!")
+                return redirect(services)
+        else:
+            # if session exist, remove session
+            valid_applicant_session = request.session.get('valid_applicant')
+            if valid_applicant_session:
+                del request.session['valid_applicant']
+
+            context = {
+                'title': foundData.name+' application',
+                'service_active': 'active',
+                'service': foundData,
+            }
+            return render(request, 'management/service_details.html', context)
+    else:
+        messages.error(request, ('Service not found'))
+        return redirect(all_services)
+
+
+def citizen_request(request, name):
+    service_name = name
+    # check if category exist
+    if Service.objects.filter(name=service_name).exists():
+        # if exists
+        foundData = Service.objects.get(name=service_name)
+        # get applicant
+        valid_applicant = request.session.get('valid_applicant')
+        if valid_applicant:
+            # getting citizen data
+            citizenData = Citizen.objects.get(id=valid_applicant)
+            if request.method == 'POST':
+                # documentCategories = request.POST.get('documentCategories')
+                picture = request.FILES['picture']
+                phone = request.POST.get('phone')
+                email = request.POST.get('email')
+
+                if not (phone and email and picture):
+                    messages.warning(
+                        request, "Error , All fields are required.")
+                    return redirect(citizen_request, name)
+                else:
+                    # INSERT DATA IN CANDIDATE POSITION MODEL
+                    new_request = Application(
+                        citizen=citizenData,
+                        current_phone=phone,
+                        email=email,
+                        service=foundData,
+                        documentCategories="",
+                        picture=picture
+                    )
+                    new_request.save()
+
+                    messages.success(
+                        request, "Your Application form has been submitted successfully.")
+
+                    # delete applicant session
+                    del request.session['valid_applicant']
+
+                    return redirect(all_services)
+            else:
+                context = {
+                    'title': foundData.name+' application',
+                    'service_active': 'active',
+                    'service': foundData,
+                    'citizen': citizenData
+                }
+                return render(request, 'management/service_application.html', context)
+        else:
+            return redirect(service_details, name)
+
+    else:
+        messages.error(request, ('Service not found'))
+        return redirect(all_services)
 
 
 def contact_us(request):
@@ -71,7 +169,7 @@ def dashboard(request):
     if request.user.is_authenticated and request.user.is_registrar == True:
         # getting data
         citizens = Citizen.objects.filter()
-        newApplications = DocumentApplication.objects.filter(
+        newApplications = Application.objects.filter(
             status__isnull=True)
 
         context = {
@@ -126,7 +224,7 @@ def registrarProfile(request):
                 return redirect(registrarProfile)
 
         else:
-            newApplications = DocumentApplication.objects.filter(
+            newApplications = Application.objects.filter(
                 status__isnull=True)
             context = {
                 'title': 'Registrar | Profile',
@@ -142,7 +240,7 @@ def registrarProfile(request):
 def newApplication(request,):
     if request.user.is_authenticated and request.user.is_registrar == True:
         # getting new request
-        newApplications = DocumentApplication.objects.filter(
+        newApplications = Application.objects.filter(
             status__isnull=True)
         context = {
             'title': 'Registrar - New Document Requests',
@@ -159,10 +257,10 @@ def newApplication(request,):
 @login_required(login_url='registrar_login')
 def archivedRequest(request,):
     if request.user.is_authenticated and request.user.is_registrar == True:
-        newApplications = DocumentApplication.objects.filter(
+        newApplications = Application.objects.filter(
             status__isnull=True)
         # getting archived requests
-        archivedRequests = DocumentApplication.objects.filter(
+        archivedRequests = Application.objects.filter(
             status__isnull=False)
         context = {
             'title': 'Registrar - Archived Document Requests',
@@ -210,7 +308,7 @@ def services(request):
                 messages.error(request, "Error , Service name is required!")
                 return redirect(services)
         else:
-            newApplications = DocumentApplication.objects.filter(
+            newApplications = Application.objects.filter(
                 status__isnull=True)
             # getting services
             ServiceData = Service.objects.filter()
@@ -274,7 +372,7 @@ def servicesEdit(request, pk):
                 return redirect(services)
 
             else:
-                newApplications = DocumentApplication.objects.filter(
+                newApplications = Application.objects.filter(
                     status__isnull=True)
                 context = {
                     'title': 'Registrar - Service Info',
@@ -330,7 +428,7 @@ def citizenList(request):
                 messages.error(request, ('All fields are required.'))
                 return redirect(citizenList)
         else:
-            newApplications = DocumentApplication.objects.filter(
+            newApplications = Application.objects.filter(
                 status__isnull=True)
             # getting citizens
             CitizenData = Citizen.objects.filter()
@@ -464,7 +562,7 @@ def citizenEdit(request, pk):
                 return redirect(citizenList)
 
             else:
-                newApplications = DocumentApplication.objects.filter(
+                newApplications = Application.objects.filter(
                     status__isnull=True)
                 context = {
                     'title': 'Registrar - Citizen Info',

@@ -1,0 +1,148 @@
+{% extends "management/index.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Details</title>
+  </head>
+
+  <body>
+    {% block main_content%}
+
+    <!--header section start -->
+    <div class="header_section">
+      {% include 'management/nav_header.html' %}
+
+      <div class="banner_main">
+        <h1 class="banner_taital">IDDS</h1>
+        <h1 class="banner_taital_2">
+          Individual Descriptive Document Acquisition System
+        </h1>
+      </div>
+    </div>
+    <!--header section end -->
+
+    <!--costume header section start -->
+    {% include 'management/menu_header.html' %}
+    <!--costume header section end -->
+    <hr />
+
+    <!--services section start -->
+    <div class="layout_padding pb-5" id="service">
+      <div class="container">
+        <ol class="breadcrumb bg-light">
+          <li class="breadcrumb-item">
+            <a href="{% url 'all_services' %}">Home</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            {{service.name}}
+          </li>
+        </ol>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h2>{{service.name}}</h2>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 mb-3">
+                    <span class="font-weight-bold">Description:</span>
+                    <p class="content text-lg">{{ service.description }}</p>
+                  </div>
+                  <div class="col-sm-12 col-lg-6 mb-6">
+                    <p>
+                      <span class="font-weight-bold">
+                        <i class="ik ik-watch"></i> Processing Time</span
+                      >: {{ service.processingTime }}
+                    </p>
+                  </div>
+                  <div class="col-sm-12 col-lg-6 mb-6">
+                    <p>
+                      <span class="font-weight-bold">
+                        <i class="ik ik-tag"></i> Fee</span
+                      >: {{ service.fees }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button
+                  type="submit"
+                  name="update_service"
+                  class="btn btn-primary btn-rounded float-right"
+                  data-toggle="modal"
+                  data-target="#serviceModal"
+                >
+                  <i class="ik ik-save"></i>
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="modal fade"
+          id="serviceModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="serviceModalTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="serviceModalTitle">
+                  <i class="fa fa-user"></i>
+                  CITIZEN IDENTIFICATION
+                </h4>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <p>Provide your citizen id number for the next step.</p>
+                  <div class="form-group">
+                    <label class="col-form-label">Citizen ID Number</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-uppercase"
+                      name="citizen_id_number"
+                      placeholder="ID Number ..."
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="submit"
+                    name="citizen_identity"
+                    class="btn btn-primary btn-sm"
+                  >
+                    <i class="fa fa-right"></i>
+                    Proceed
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--services section end -->
+    {% endblock %}
+  </body>
+</html>

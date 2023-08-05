@@ -102,12 +102,26 @@ class CitizenDocument(models.Model):
         return "{} {}".format(self.citizen.first_name, self.citizen.last_name)
 
 
-class DocumentApplication(models.Model):
-    class DocumentType(models.TextChoices):
-        SELECT = "", "Select Document"
-        PASSPORT = "Passport", "Passport"
-        IDD = "Individual Descriptive Document", "Individual Descriptive Document"
+class Service(models.Model):
+    class ServiceType(models.TextChoices):
+        SELECT = "", "Select Service"
+        PASSPORT_APPLICATION = "e-Passport Application", "e-Passport Application"
+        IDD_APPLICATION = "Individual Descriptive Document Application", "Individual Descriptive Document Application"
 
+    name = models.CharField(
+        verbose_name="Service Name", choices=ServiceType.choices, default=ServiceType.SELECT, max_length=100, unique=True, blank=False, null=False)
+    description = models.TextField(
+        verbose_name="Description", blank=False, null=False)
+    processingTime = models.CharField(
+        verbose_name="Processing Time", max_length=50, blank=False, null=False)
+    fees = models.CharField(verbose_name="Fees",
+                            max_length=100, blank=False, null=False)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+
+class Application(models.Model):
     class DocumentCategory(models.TextChoices):
         SELECT = "", "Select Document Category"
         NONE = "None", "None"
@@ -115,13 +129,13 @@ class DocumentApplication(models.Model):
         DIPLOMATIC = "Diplomatic Passport", "Diplomatic Passport"
         SERVICE = "Service Passport", "Service Passport"
 
-    citizen = models.ForeignKey(
-        Citizen, verbose_name="Citizen", related_name="applications", on_delete=models.CASCADE)
+    citizen = models.ForeignKey(Citizen, verbose_name="Citizen",
+                                related_name="applications", on_delete=models.CASCADE)
     current_phone = PhoneNumberField(verbose_name="Phone Number", blank=True)
     email = models.EmailField(verbose_name="Email",
                               max_length=255, unique=True, blank=False)
-    document = models.CharField(
-        verbose_name="Document Requesting", choices=DocumentType.choices, default=DocumentType.SELECT, max_length=50)
+    service = models.ForeignKey(
+        Service, verbose_name="Service", on_delete=models.CASCADE)
     documentCategories = models.CharField(verbose_name="Document Category", choices=DocumentCategory.choices,
                                           default=DocumentCategory.SELECT, max_length=50, blank=True, null=True)
     picture = models.ImageField(
@@ -137,17 +151,3 @@ class DocumentApplication(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.citizen.first_name, self.citizen.last_name)
-
-
-class Service(models.Model):
-    name = models.CharField(verbose_name="Service Name",
-                            max_length=100, unique=True, blank=False, null=False)
-    description = models.TextField(
-        verbose_name="Description", blank=False, null=False)
-    processingTime = models.CharField(
-        verbose_name="Processing Time", max_length=50, blank=False, null=False)
-    fees = models.CharField(verbose_name="Fees",
-                            max_length=100, blank=False, null=False)
-
-    def __str__(self):
-        return "{}".format(self.name)

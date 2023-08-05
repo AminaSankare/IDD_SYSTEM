@@ -122,13 +122,22 @@
                 <div class="modal-body">
                   <div class="form-group mb-0">
                     <label class="col-form-label">Service Name</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-uppercase"
+                    <select
+                      id="inputStatus"
                       name="service_name"
-                      placeholder="Service Name ..."
+                      class="form-control custom-select"
                       required
-                    />
+                    >
+                      <option selected disabled>Select Service</option>
+                      <option value="e-Passport Application">
+                        e-Passport Application
+                      </option>
+                      <option
+                        value="Individual Descriptive Document Application"
+                      >
+                        Individual Descriptive Document Application
+                      </option>
+                    </select>
                   </div>
                   <div class="form-group mb-0">
                     <label class="col-form-label">Description</label>

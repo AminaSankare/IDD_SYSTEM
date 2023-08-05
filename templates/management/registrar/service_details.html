@@ -128,14 +128,23 @@
                 <div class="modal-body">
                   <div class="form-group mb-0">
                     <label class="col-form-label">Service Name</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-uppercase"
+                    <select
+                      id="inputStatus"
                       name="service_name"
-                      placeholder="Service Name ..."
-                      value="{{ service.name }}"
+                      class="form-control custom-select"
                       required
-                    />
+                    >
+                      <option disabled>Select Service</option>
+                      <option {% if service.name == "e-Passport Application" %} selected {% endif %} value="e-Passport Application">
+                        e-Passport Application
+                      </option>
+                      <option
+                       {% if service.name == "Individual Descriptive Document Application" %} selected {% endif %}
+                        value="Individual Descriptive Document Application"
+                      >
+                        Individual Descriptive Document Application
+                      </option>
+                    </select>
                   </div>
                   <div class="form-group mb-0">
                     <label class="col-form-label">Description</label>

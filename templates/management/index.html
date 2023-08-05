@@ -73,6 +73,14 @@
       </div>
     </div>
 
+    {% if messages %} {% for message in messages %}
+    <script>
+      //<!--contents message displayed-->
+      alert("{{ message }}");
+      //<!-- / .contents message displayed-->
+    </script>
+    {% endfor %} {% endif %}
+
     <!-- copyright section end -->
     <!-- Javascript files-->
     <script src="{% static 'style/js/jquery.min.js' %}"></script>

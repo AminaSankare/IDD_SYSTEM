@@ -1,0 +1,251 @@
+{% extends "management/index.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application</title>
+  </head>
+
+  <body>
+    {% block main_content%}
+
+    <!--header section start -->
+    <div class="header_section">
+      {% include 'management/nav_header.html' %}
+
+      <div class="banner_main">
+        <h1 class="banner_taital">IDDS</h1>
+        <h1 class="banner_taital_2">
+          Individual Descriptive Document Acquisition System
+        </h1>
+      </div>
+    </div>
+    <!--header section end -->
+
+    <!--costume header section start -->
+    {% include 'management/menu_header.html' %}
+    <!--costume header section end -->
+    <hr />
+
+    <!--services section start -->
+    <div class="layout_padding pb-5" id="service">
+      <div class="container">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'all_services' %}">Home</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            {{service.name}}
+          </li>
+        </ol>
+        <h4 class="card-title">
+          <div class="service-header d-flex py-2">
+            <h5 class="service-preview-title">{{service.name}}</h5>
+          </div>
+          <h5 class="text-info">
+            Applicant:
+            <span class="font-weight-bold"
+              >{{ citizen.first_name }} {{ citizen.last_name }}</span
+            >
+          </h5>
+          <h5 class="text-info">
+            ID Number:
+            <span class="font-weight-bold">{{ citizen.nid_number }}</span>
+          </h5>
+        </h4>
+        <div class="row">
+          <div class="col-md-12 mb-2">
+            <div class="card">
+              <div class="card-header">
+                <h3>
+                  <i class="fa fa-user text-info"></i> Citizen Information
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <span class="">
+                      Full names:
+                      <span class="h6">
+                        {{ citizen.first_name }} {{ citizen.last_name }}
+                      </span>
+                    </span>
+                  </div>
+                  <div class="col-sm-12 col-xl-6">
+                    <span>
+                      Nationality:
+                      <span class="h6">{{ citizen.nationality }}</span>
+                    </span>
+                  </div>
+                  <div class="col-sm-12 col-xl-6">
+                    <span>
+                      National ID Number:
+                      <span class="h6">{{ citizen.nid_number }}</span>
+                    </span>
+                  </div>
+                  <div class="col-sm-12 col-xl-6">
+                    <span>
+                      Birthdate: <span class="h6">{{ citizen.birthdate }}</span>
+                    </span>
+                  </div>
+                  <div class="col-sm-12 col-xl-6">
+                    <span>
+                      Birth place:
+                      <span class="h6">{{ citizen.birth_place }}</span>
+                    </span>
+                  </div>
+                  <div class="col-sm-12 col-xl-6">
+                    <span
+                      >Gender:
+                      <span class="h6">{{ citizen.gender }}</span></span
+                    >
+                  </div>
+                  <div class="col-sm-12 col-xl-6">
+                    <span>
+                      Marital Status:
+                      <span class="h6">{{ citizen.marital_status }}</span>
+                    </span>
+                  </div>
+                  <div class="col-lg-12 mt-3">
+                    <u class="title">Residence Address</u>
+                    <div class="row">
+                      <div class="col-sm-12 col-xl-6">
+                        <span>
+                          Province:
+                          <span class="h6">{{citizen.address.province}}</span>
+                        </span>
+                      </div>
+                      <div class="col-sm-12 col-xl-6">
+                        <span>
+                          State:
+                          <span class="h6">{{citizen.address.state }}</span>
+                        </span>
+                      </div>
+                      <div class="col-sm-12 col-xl-6">
+                        <span>
+                          City:
+                          <span class="h6">{{citizen.address.city }}</span>
+                        </span>
+                      </div>
+                      <div class="col-sm-12 col-xl-6">
+                        <span>
+                          Street:
+                          <span class="h6">{{citizen.address.street }}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  {% if citizen.parents %}
+                  <div class="col-lg-12 mt-3">
+                    <u class="title">Citizen Parents</u>
+                    <div class="row">
+                      {% for data in citizen.parents.all %}
+                      <div class="col-sm-12 col-xl-6">
+                        <small class="font-weight-bold">
+                          {{data.parent}}
+                        </small>
+                        <br />
+                        <span>
+                          Names:
+                          <span class="h6"
+                            >{{data.first_name}} {{data.last_name}}
+                          </span>
+                        </span>
+                        <br />
+                        <span>
+                          Professionalism:
+                          <span class="h6">{{data.professionalism}} </span>
+                        </span>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="mt-5">Fill the form below to finish the application.</p>
+          <div class="col-lg-12 mt-2">
+            <form
+              action=""
+              method="post"
+              role="form"
+              enctype="multipart/form-data"
+            >
+              {% csrf_token %}
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-lg-5 col-sm-12">
+                    <div class="form-group">
+                      <label for="picture">Upload a passport picture</label>
+                      <input
+                        id="picture"
+                        type="file"
+                        class="form-control"
+                        placeholder="upload picture"
+                        name="picture"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-10 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="phone">Phone Number</label>
+                          <input
+                            allownumber=""
+                            formcontrolname="phone"
+                            id="phone"
+                            name="phone"
+                            maxlength="15"
+                            minlength="15"
+                            type="text"
+                            class="form-control"
+                            placeholder="+2507********"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="email">Email Address</label>
+                          <input
+                            formcontrolname="email"
+                            id="email"
+                            name="email"
+                            type="email"
+                            class="form-control"
+                            placeholder="Enter an email address"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  name="update_service"
+                  class="btn btn-info btn-rounded my-5"
+                  data-toggle="modal"
+                  data-target="#serviceModal"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--services section end -->
+
+    {% endblock %}
+  </body>
+</html>
