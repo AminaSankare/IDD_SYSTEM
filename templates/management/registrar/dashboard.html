@@ -49,7 +49,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="state">
                     <h6>Applications</h6>
-                    <h2>{{ newApplications.count }}</h2>
+                    <h2>{{ total_request }}</h2>
                   </div>
                   <div class="icon">
                     <i class="ik ik-list text-yellow"></i>
@@ -99,7 +99,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for application in newApplications %}
+                    {% for application in request_data %}
                     <tr>
                       <td>{{ forcounter }}.</td>
                       <td>
@@ -124,7 +124,9 @@
                       </td>
                       <td>
                         <div class="table-actions">
-                          <a href="{% url 'new_application' application.id %}">
+                          <a
+                            href="{% url 'new_application_details' application.id %}"
+                          >
                             <i class="ik ik-edit text-primary"></i> Action
                           </a>
                         </div>

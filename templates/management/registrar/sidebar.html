@@ -35,7 +35,7 @@
         <div class="nav-item has-sub {{request_active}}">
           <a href="#">
             <i class="ik ik-list"></i> <span>Document Applications</span>
-            {% if newApplications %}
+            {% if request_data %}
             <span class="badge badge-yellow">New</span>
             {% endif %}
           </a>
@@ -44,13 +44,11 @@
               href="{% url 'new_application' %}"
               class="menu-item {{newRequest_active}}"
             >
-              Pending List {% if newApplications %}
-              <span class="badge badge-yellow">
-                {{newApplications.count}}
-              </span>
+              Pending List {% if request_data %}
+              <span class="badge badge-yellow"> {{request_data.count}} </span>
               {% else %}
               <span class="badge badge-secondary">
-                {{newApplications.count}}
+                {{request_data.count}}
               </span>
               {% endif %}
             </a>
@@ -73,7 +71,7 @@
         <div class="nav-lavel">Services</div>
         <div class="nav-item {{service_active}}">
           <a href="{% url 'services' %}">
-            <i class="ik ik-list"></i> <span>Our Services</span>
+            <i class="ik ik-clipboard"></i> <span>Our Services</span>
           </a>
         </div>
       </nav>

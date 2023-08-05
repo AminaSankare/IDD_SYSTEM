@@ -88,7 +88,9 @@
                       </td>
                       <td>
                         <div class="table-actions">
-                          <a href="{% url 'new_application' application.id %}">
+                          <a
+                            href="{% url 'archived_request_details' application.id %}"
+                          >
                             <i class="ik ik-edit text-primary"></i> Action
                           </a>
                         </div>

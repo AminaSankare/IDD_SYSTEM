@@ -144,8 +144,7 @@ class Application(models.Model):
         validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],
         blank=True, null=True
     )
-    status = models.BooleanField(
-        verbose_name="Status", default=False, blank=True)
+    status = models.BooleanField(verbose_name="Status", default=False)
     createdDate = models.DateTimeField(
         verbose_name="Created Date", auto_now_add=True)
 
