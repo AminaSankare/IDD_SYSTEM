@@ -54,6 +54,25 @@
             {{request_details.service.name}}
           </div>
         </h5>
+        <div class="card-footer">
+          <span class="float-right">
+            To reply to the citizen request click :
+            <button
+              type="button"
+              class="btn btn-light btn-rounded"
+              data-toggle="modal"
+              data-target="#upload_document"
+            >
+              <i class="ik ik-upload text-primary"></i> upload document
+            </button>
+          </span>
+          <span>
+            To download citizen info click :
+            <button type="button" class="btn btn-light btn-rounded">
+              <i class="ik ik-download text-primary"></i> download
+            </button>
+          </span>
+        </div>
         <div class="row">
           <div class="col-md-12 mb-2">
             <div class="card">
@@ -189,81 +208,100 @@
             </div>
           </div>
 
-          <p class="mt-5">Fill the form below to finish the application.</p>
-          <div class="col-lg-12 mt-2">
-            <form
-              action=""
-              method="post"
-              role="form"
-              enctype="multipart/form-data"
-            >
-              {% csrf_token %}
-              <div class="col-md-12">
+          <div class="col-md-12 mb-2">
+            <div class="card">
+              <div class="card-header">
+                <h6>Addition info for Applicant.</h6>
+              </div>
+              <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-5 col-sm-12">
-                    <div class="form-group">
-                      <label for="picture">Upload a passport picture</label>
-                      <input
-                        id="picture"
-                        type="file"
-                        class="form-control"
-                        placeholder="upload picture"
-                        name="picture"
-                        required
+                  <div class="col-lg-6">
+                    <h6 for="picture">Uploaded picture</h6>
+                    <div class="image-card">
+                      <image
+                        src="{{request_details.picture.url}}"
+                        width="200px"
                       />
                     </div>
                   </div>
-                  <div class="col-lg-10 col-sm-12">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="phone">Phone Number</label>
-                          <input
-                            allownumber=""
-                            formcontrolname="phone"
-                            id="phone"
-                            name="phone"
-                            maxlength="15"
-                            minlength="15"
-                            type="text"
-                            class="form-control"
-                            placeholder="+2507********"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="email">Email Address</label>
-                          <input
-                            formcontrolname="email"
-                            id="email"
-                            name="email"
-                            type="email"
-                            class="form-control"
-                            placeholder="Enter an email address"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                  <div class="col-lg-6">
+                    <h6 for="picture">Contact Address</h6>
+                    <p>
+                      <span> <i class="fa fa-tablet"></i> </span>
+                      <span>{{request_details.current_phone}}</span>
+                    </p>
+                    <p>
+                      <span> <i class="fa fa-envelope"></i> </span>
+                      <span>{{request_details.email}}</span>
+                    </p>
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  name="update_service"
-                  class="btn btn-info btn-rounded my-5"
-                  data-toggle="modal"
-                  data-target="#serviceModal"
-                >
-                  Submit
-                </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
+    <div
+      class="modal fade"
+      id="upload_document"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="deleteModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title" id="deleteModalTitle">
+              <i class="ik ik-upload text-primary"></i> UPLOAD DOCUMENT FILE
+            </h6>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="idd_file"
+                  >Upload Individual Descriptive Document</label
+                >
+                <input
+                  id="idd_file"
+                  type="file"
+                  class="form-control"
+                  placeholder="upload Documet"
+                  name="idd_file"
+                  required
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                name="send_file"
+                class="btn btn-outline-primary btn-rounded"
+              >
+                <i class="ik ik-send"></i> Send
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     {% endblock %}
   </body>
 </html>

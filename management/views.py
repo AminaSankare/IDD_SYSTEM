@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model, authenticate, login, logout, update_session_auth_hash
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 
 from .models import Citizen, CitizenAddress, CitizenParent, CitizenDocument, Application, Service
@@ -258,16 +258,66 @@ def newApplication_details(request, pk):
         if Application.objects.filter(id=newApplication_id, status=False).exists():
             request_details = Application.objects.get(
                 id=newApplication_id, status=False)
-            # getting new request
-            request_data = Application.objects.filter(status=False)
-            context = {
-                'title': 'Registrar - New Document Requests',
-                'request_active': 'open active',
-                'newRequest_active': 'active',
-                'request_data': request_data,
-                'request_details': request_details,
-            }
-            return render(request, 'management/registrar/application_details.html', context)
+            if 'send_file' in request.POST:
+                idd_file = request.POST.get("idd_file")
+
+                if idd_file:
+                    # idd document
+                    if request_details.document == 'Individual Descriptive Document':
+                        citizen_document = CitizenDocument(
+                            citizen=request_details.citizen,
+                            document='Individual Descriptive Document',
+                            file=idd_file,
+                        )
+
+                    # for passport
+                    if request_details.document == 'Passport':
+                        citizen_document = CitizenDocument(
+                            citizen=request_details.citizen,
+                            document='Passport',
+                            file=idd_file,
+                        )
+
+                    # save
+                    citizen_document.save()
+
+                    # set citizen request status to true
+                    status_updated = request_details.update(
+                        status=True
+                    )
+                    if status_updated:
+                        #  sending email notification
+                        subject = 'File Upload Confirmation'
+                        message = 'Thank you for uploading the file.'
+                        from_email = settings.EMAIL_HOST_USER
+                        # Citizen's Gmail address
+                        recipient_list = [request_details.email]
+
+                        email = EmailMessage(
+                            subject, message, from_email, recipient_list)
+                        # Attach the uploaded file
+                        email.attach_file(idd_file)
+                        email.send()
+
+                        messages.success(
+                            request, "Response Success")
+                        return redirect(newApplication_details, pk)
+
+                else:
+                    messages.error(
+                        request, "Error , All fields are required !")
+                    return redirect(newApplication_details, pk)
+            else:
+                # getting new request
+                request_data = Application.objects.filter(status=False)
+                context = {
+                    'title': 'Registrar - New Document Requests',
+                    'request_active': 'open active',
+                    'newRequest_active': 'active',
+                    'request_data': request_data,
+                    'request_details': request_details,
+                }
+                return render(request, 'management/registrar/application_details.html', context)
         else:
             messages.warning(request, ('request not found'))
             return redirect(newApplication)
